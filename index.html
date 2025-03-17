@@ -1,33 +1,39 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кнопка со звуком</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Кнопка со звуком</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <button id="soundButton">Нажми меня</button>
-    <audio id="audio" src="./soundtag.mp3" autoplay muted></audio>
+  <button id="soundButton">Нажми меня</button>
+  <audio id="audio" src="./soundtag.mp3" loop></audio>
 
-    <script>
-        const button = document.getElementById('soundButton');
-        const audio = document.getElementById('audio');
+  <script>
+    const button = document.getElementById('soundButton');
+    const audio = document.getElementById('audio');
+    let isPlayed = false;
 
-        // Автоматическое воспроизведение при загрузке страницы
-        window.addEventListener('load', () => {
-            audio.muted = false; // Убираем mute, чтобы звук мог воспроизводиться
-            audio.play().catch(error => console.log('Автовоспроизведение заблокировано:', error));
-        });
+    // Попытка автозапуска при загрузке страницы
+    window.addEventListener('load', () => {
+      audio.play().then(() => {
+        isPlayed = true; // Если звук успешно запустился
+      }).catch(() => {
+        console.log('Автовоспроизведение заблокировано. Ожидание взаимодействия...');
+      });
+    });
 
-        // Нажатие на кнопку (только один раз)
-        button.addEventListener('click', () => {
-            audio.play().catch(error => console.log('Ошибка воспроизведения:', error));
-            button.disabled = true; // Блокируем кнопку навсегда
-        });
-    </script>
+    // Нажатие на кнопку (разрешено только один раз)
+    button.addEventListener('click', () => {
+      if (!isPlayed) { // Запускаем звук только если он еще не играл
+        audio.play().catch(error => console.log('Ошибка воспроизведения:', error));
+        isPlayed = true;
+      }
+      button.disabled = true; // Блокируем кнопку навсегда
+    });
+  </script>
 </body>
 </html>
-    </script>
 </body>
 </html>
