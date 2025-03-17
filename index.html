@@ -8,18 +8,21 @@
 </head>
 <body>
     <button id="soundButton">Нажми меня</button>
-    <audio id="audio" src="soundtag.mp3"></audio>
+    <audio id="audio" src="./soundtag.mp3" autoplay muted loop></audio>
 
     <script>
         const button = document.getElementById('soundButton');
         const audio = document.getElementById('audio');
 
-        // Попробуем запустить звук сразу при загрузке страницы
-        window.addEventListener('load', () => {
-            audio.play().catch(error => console.log('Автовоспроизведение блокировано:', error));
-        });
+        // Включаем звук при первой активности пользователя
+        document.addEventListener('click', () => {
+            if (audio.muted) {
+                audio.muted = false;
+                audio.play().catch(error => console.log('Ошибка воспроизведения:', error));
+            }
+        }, { once: true });
 
-        // Воспроизведение звука по кнопке
+        // Нажатие на кнопку воспроизводит звук
         button.addEventListener('click', () => {
             audio.currentTime = 0;
             audio.play();
