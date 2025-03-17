@@ -15,22 +15,35 @@
     const audio = document.getElementById('audio');
     let isPlayed = false;
 
-    // Попытка автозапуска при загрузке страницы
+    // Пробуем запустить звук сразу после загрузки страницы
     window.addEventListener('load', () => {
       audio.play().then(() => {
-        isPlayed = true; // Если звук успешно запустился
+        isPlayed = true;
       }).catch(() => {
         console.log('Автовоспроизведение заблокировано. Ожидание взаимодействия...');
       });
     });
 
-    // Нажатие на кнопку (разрешено только один раз)
+    // Также пытаемся воспроизвести звук через взаимодействие с документом
+    document.addEventListener('click', () => {
+      if (!isPlayed) {
+        audio.play().then(() => {
+          isPlayed = true;
+        }).catch(error => console.log('Ошибка воспроизведения:', error));
+      }
+    });
+
+    // Нажатие на кнопку (только один раз)
     button.addEventListener('click', () => {
-      if (!isPlayed) { // Запускаем звук только если он еще не играл
+      if (!isPlayed) {
         audio.play().catch(error => console.log('Ошибка воспроизведения:', error));
         isPlayed = true;
       }
-      button.disabled = true; // Блокируем кнопку навсегда
+      button.disabled = true;
+    });
+  </script>
+</body>
+</html>
     });
   </script>
 </body>
