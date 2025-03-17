@@ -14,8 +14,14 @@
         const button = document.getElementById('soundButton');
         const audio = document.getElementById('audio');
 
+        // Включение звука по клику на любой элемент страницы (только один раз)
+        document.addEventListener('click', () => {
+            audio.play().catch(error => console.log('Автовоспроизведение заблокировано:', error));
+        }, { once: true });
+
+        // Воспроизведение по кнопке
         button.addEventListener('click', () => {
-            audio.currentTime = 0; // Сброс звука на начало
+            audio.currentTime = 0;
             audio.play();
         });
     </script>
